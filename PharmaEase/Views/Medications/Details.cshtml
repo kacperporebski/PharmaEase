@@ -1,0 +1,30 @@
+﻿@model PharmaEase.Models.Medication
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>Medication</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Miligrams)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Miligrams)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.DoseNum)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.DoseNum)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model?.CommonName">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>

@@ -1,0 +1,47 @@
+﻿@model IEnumerable<PharmaEase.Models.Medication>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.CommonName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Miligrams)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DoseNum)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.CommonName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Miligrams)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DoseNum)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.CommonName">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.CommonName">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.CommonName">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
