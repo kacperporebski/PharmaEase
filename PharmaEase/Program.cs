@@ -3,20 +3,34 @@ using Microsoft.EntityFrameworkCore;
 using PharmaEase.Data;
 using Microsoft.Extensions.DependencyInjection;
 using PharmaEase.Models.Seeders;
+using Microsoft.AspNetCore.Authorization;
 
 var builder = WebApplication.CreateBuilder(args);
+
+//database stuff
 builder.Services.AddDbContext<PharmaEaseContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'Default' not found.")));
-
-// Add services to the container.
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
+//role and permissions
 builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+    .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<PharmaEaseContext>();
+
+//require everyone to be logged in
+builder.Services.AddAuthorization(options =>
+{
+    options.FallbackPolicy = new AuthorizationPolicyBuilder()
+        .RequireAuthenticatedUser()
+        .Build();
+});
+
+//views
 builder.Services.AddControllersWithViews();
 
 var app = builder.Build();
 
+//put data in database if theres nothing
 using (var scope = app.Services.CreateScope())
 {
     var services = scope.ServiceProvider;

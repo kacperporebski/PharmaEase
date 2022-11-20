@@ -27,4 +27,29 @@
     <Folder Include="Migrations\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Include="wwwroot\dist\css\style.css" />
+    <None Include="wwwroot\dist\images\cta-illustration-dark.svg" />
+    <None Include="wwwroot\dist\images\cta-illustration-light.svg" />
+    <None Include="wwwroot\dist\images\feature-01-dark.svg" />
+    <None Include="wwwroot\dist\images\feature-01-light.svg" />
+    <None Include="wwwroot\dist\images\feature-02-dark.svg" />
+    <None Include="wwwroot\dist\images\feature-02-light.svg" />
+    <None Include="wwwroot\dist\images\feature-03-dark.svg" />
+    <None Include="wwwroot\dist\images\feature-03-light.svg" />
+    <None Include="wwwroot\dist\images\features-box-dark.svg" />
+    <None Include="wwwroot\dist\images\features-box-light.svg" />
+    <None Include="wwwroot\dist\images\features-illustration-dark.svg" />
+    <None Include="wwwroot\dist\images\features-illustration-light.svg" />
+    <None Include="wwwroot\dist\images\features-illustration-top-dark.svg" />
+    <None Include="wwwroot\dist\images\features-illustration-top-light.svg" />
+    <None Include="wwwroot\dist\images\header-illustration-dark.svg" />
+    <None Include="wwwroot\dist\images\header-illustration-light.svg" />
+    <None Include="wwwroot\dist\images\hero-media-illustration-dark.svg" />
+    <None Include="wwwroot\dist\images\hero-media-illustration-light.svg" />
+    <None Include="wwwroot\dist\images\logo-dark.svg" />
+    <None Include="wwwroot\dist\images\logo-light.svg" />
+    <None Include="wwwroot\dist\js\main.min.js" />
+  </ItemGroup>
+
 </Project>
