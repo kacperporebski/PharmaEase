@@ -1,8 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using PharmaEase.Data;
-using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Linq;
+using PharmaEase.Areas.Identity.Data;
 
 namespace PharmaEase.Models.Seeders
 {
@@ -22,28 +20,26 @@ namespace PharmaEase.Models.Seeders
 
                 var patient1 = new Patient
                 {
-
-                    BuildingNum = 244,
                     City = "Calgary",
                     Fname = "John",
                     Lname = "Doe",
-                    Street = "Chapman Circle SE",
-                    PhoneNum = "403-444-1234",
+                    Street = "244 Chapman Circle SE",
+                    PhoneNumber = "403-444-1234",
                     PostalCode = "T2X 3T7",
-                    Province = "Alberta"
+                    Province = "Alberta",
+                    GovtHealthNum = "872903520"
                 };
 
                 var patient2 = new Patient
                 {
-
-                    BuildingNum = 111,
                     City = "Vancouver",
                     Fname = "Jane",
                     Lname = "Watson",
-                    Street = "University Drive NE",
-                    PhoneNum = "403-777-7878",
+                    Street = "12 University Drive NE",
+                    PhoneNumber = "403-777-7878",
                     PostalCode = "Z6Y K7L",
-                    Province = "British Columbia"
+                    Province = "British Columbia",
+                    GovtHealthNum = "12356236"
                 };
 
                 var doctor1 = new Doctor

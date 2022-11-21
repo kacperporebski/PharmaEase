@@ -4,6 +4,7 @@ using PharmaEase.Data;
 using Microsoft.Extensions.DependencyInjection;
 using PharmaEase.Models.Seeders;
 using Microsoft.AspNetCore.Authorization;
+using PharmaEase.Areas.Identity.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,7 +14,7 @@ builder.Services.AddDbContext<PharmaEaseContext>(options =>
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 //role and permissions
-builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+builder.Services.AddDefaultIdentity<Patient>(options => options.SignIn.RequireConfirmedAccount = true)
     .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<PharmaEaseContext>();
 

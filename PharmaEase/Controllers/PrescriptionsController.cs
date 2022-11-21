@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using PharmaEase.Areas.Identity.Data;
 using PharmaEase.Data;
 using PharmaEase.Models;
 
@@ -52,7 +53,7 @@ namespace PharmaEase.Controllers
         {
             ViewData["PrescriberLicenseNum"] = new SelectList(_context.Set<Doctor>(), "MedicalLicenseId", "MedicalLicenseId");
             ViewData["MedicationCommonName"] = new SelectList(_context.Medication, "CommonName", "CommonName");
-            ViewData["PatientHealthNum"] = new SelectList(_context.Set<Patient>(), "GovtHealthNum", "GovtHealthNum");
+            ViewData["PatientHealthNum"] = new SelectList(_context.Set<Patient>().Where(x=>x.GovtHealthNum != "0"), "GovtHealthNum", "GovtHealthNum");
             return View();
         }
 

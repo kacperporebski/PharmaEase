@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using PharmaEase.Areas.Identity.Data;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace PharmaEase.Models
@@ -17,7 +18,7 @@ namespace PharmaEase.Models
 
         [Required]
         [ForeignKey("Patient")]
-        public int PatientHealthNum { get; set; }
+        public string PatientHealthNum { get; set; }
         public Patient Patient { get; set; }
 
 

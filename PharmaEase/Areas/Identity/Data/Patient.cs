@@ -1,15 +1,13 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.AspNetCore.Identity;
+using System.ComponentModel.DataAnnotations;
 
-namespace PharmaEase.Models
+namespace PharmaEase.Areas.Identity.Data
 {
-    public class Patient
+    public class Patient : IdentityUser
     {
-        [Key]
-        public int GovtHealthNum { get; set; }
-        public string PhoneNum { get; set; }
+        public string GovtHealthNum { get; set; }
         public string Fname { get; set; }
         public string Lname { get; set; }
-        public int BuildingNum { get; set; }
         public string Street { get; set; }
         public string PostalCode { get; set; }
         public string City { get; set; }

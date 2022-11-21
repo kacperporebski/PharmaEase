@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PharmaEase.Data;
 
@@ -11,9 +12,10 @@ using PharmaEase.Data;
 namespace PharmaEase.Migrations
 {
     [DbContext(typeof(PharmaEaseContext))]
-    partial class PharmaEaseContextModelSnapshot : ModelSnapshot
+    [Migration("20221121071625_KeyChange")]
+    partial class KeyChange
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -167,6 +169,9 @@ namespace PharmaEase.Migrations
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("int");
 
+                    b.Property<int>("BuildingNum")
+                        .HasColumnType("int");
+
                     b.Property<string>("City")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -187,7 +192,6 @@ namespace PharmaEase.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("GovtHealthNum")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Lname")

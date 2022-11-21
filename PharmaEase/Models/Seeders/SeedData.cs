@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using PharmaEase.Areas.Identity.Data;
 
 namespace PharmaEase.Models.Seeders
 {
@@ -21,12 +22,12 @@ namespace PharmaEase.Models.Seeders
         private static async Task<string> EnsureUser(IServiceProvider serviceProvider,
                                             string testUserPw, string UserName)
         {
-            var userManager = serviceProvider.GetService<UserManager<IdentityUser>>();
+            var userManager = serviceProvider.GetService<UserManager<Patient>>();
 
             var user = await userManager.FindByNameAsync(UserName);
             if (user == null)
             {
-                user = new IdentityUser
+                user = new Patient
                 {
                     UserName = UserName,
                     EmailConfirmed = true
@@ -58,7 +59,7 @@ namespace PharmaEase.Models.Seeders
                 IR = await roleManager.CreateAsync(new IdentityRole(role));
             }
 
-            var userManager = serviceProvider.GetService<UserManager<IdentityUser>>();
+            var userManager = serviceProvider.GetService<UserManager<Patient>>();
 
             if (userManager == null)
             {
