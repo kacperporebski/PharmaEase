@@ -1,0 +1,66 @@
+﻿@using Microsoft.AspNetCore.Identity
+@inject UserManager<IdentityUser> UserManager
+@inject SignInManager<IdentityUser> SignInManager
+
+
+<ul class="navbar-nav">
+@if (SignInManager.IsSignedIn(User))
+    {
+        if (User.IsInRole("Admin"))
+        {
+            <li class="nav-item">
+                <a class="nav-link text-light" asp-area="" asp-controller="Doctors" asp-action="Index">Doctors</a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link text-light" asp-area="" asp-controller="Pharmacies" asp-action="Index">Pharmacies</a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link text-light" asp-area="" asp-controller="Pharmacists" asp-action="Index">Pharmacists</a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link text-light" asp-area="" asp-controller="Couriers" asp-action="Index">Couriers</a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link text-light" asp-area="" asp-controller="Prescriptions" asp-action="Index">Prescriptions</a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link text-light" asp-area="" asp-controller="Patients" asp-action="Index">Patients</a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link text-light" asp-area="" asp-controller="Medications" asp-action="Index">Medications</a>
+            </li>
+        }
+        else if (User.IsInRole("Doctor"))
+        {
+            <li class="nav-item">
+                <a class="nav-link text-light" asp-area="" asp-controller="Patients" asp-action="Index">Patients</a>
+            </li>
+
+              <li class="nav-item">
+                <a class="nav-link text-light" asp-area="" asp-controller="Prescriptions" asp-action="Index">Prescriptions</a>
+            </li>
+        }
+        else if (User.IsInRole("Pharmacist"))
+        {
+            <li class="nav-item">
+                <a class="nav-link text-light" asp-area="" asp-controller="Prescriptions" asp-action="Index">Prescriptions</a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link text-light" asp-area="" asp-controller="Medications" asp-action="Index">Medications</a>
+            </li>
+        }
+        else //Regular User
+        {
+            <li class="nav-item">
+                <a class="nav-link text-light" asp-area="" asp-controller="Prescriptions" asp-action="Index">Prescriptions</a>
+            </li>
+        }
+    }
+

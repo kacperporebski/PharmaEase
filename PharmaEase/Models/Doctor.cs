@@ -11,7 +11,7 @@ namespace PharmaEase.Models
         public string Lname { get; set; }
 
         //this needs to come from the the asp net user table
-        public int ApprovAdminId { get; set; }  
+        public string ApprovAdminId { get; set; }  
         public string FullName => Fname + " " + "Lname"; 
     }
 }

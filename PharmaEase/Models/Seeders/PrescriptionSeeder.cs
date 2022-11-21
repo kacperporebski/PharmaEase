@@ -8,7 +8,7 @@ namespace PharmaEase.Models.Seeders
 {
     public static class PrescriptionSeeder
     {
-        public static void Initialize(IServiceProvider serviceProvider)
+        public static void Initialize(IServiceProvider serviceProvider, string adminID)
         {
             using (var context = new PharmaEaseContext(
                 serviceProvider.GetRequiredService<DbContextOptions<PharmaEaseContext>>()))
@@ -48,7 +48,7 @@ namespace PharmaEase.Models.Seeders
 
                 var doctor1 = new Doctor
                 {
-                    ApprovAdminId = 1,
+                    ApprovAdminId = adminID,
                     Fname = "Sherlock",
                     Lname = "Holmes",
                     Phone = "560-509-2333"
@@ -81,7 +81,7 @@ namespace PharmaEase.Models.Seeders
                         Patient = patient1,
                         Doctor = new Doctor
                         {
-                            ApprovAdminId = 1,
+                            ApprovAdminId = adminID,
                             Fname = "Luke",
                             Lname = "Holmes",
                             Phone = "234-555-5231"
@@ -96,7 +96,7 @@ namespace PharmaEase.Models.Seeders
                         Patient = patient2,
                         Doctor = new Doctor
                         {
-                            ApprovAdminId = 1,
+                            ApprovAdminId = adminID,
                             Fname = "Baby",
                             Lname = "Yoda",
                             Phone = "123-234-5667"
