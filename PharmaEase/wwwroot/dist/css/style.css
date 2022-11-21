@@ -1477,7 +1477,7 @@ button, input, select, textarea, label {
 }
 
 .features-box {
-    margin: 0 auto;
+    margin: 0;
     box-shadow: 48px 16px 48px rgba(24,37,56,0.12);
     -webkit-transform: perspective(1000px) rotateY(10deg) translateY(2%);
     transform: perspective(1000px) rotateY(10deg) translateY(2%)
@@ -1564,7 +1564,7 @@ button, input, select, textarea, label {
         display: block;
         margin-top: 8px;
         margin-right: 32px;
-        margin-bottom: 0
+        margin-bottom: 0px;
     }
 
     .feature-title::after {

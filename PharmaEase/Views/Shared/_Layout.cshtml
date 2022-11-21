@@ -8,9 +8,9 @@
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/PharmaEase.styles.css" asp-append-version="true" />
 </head>
-<body>
+<body class="bg-dark text-light">
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark bg-secondary border-bottom box-shadow mb-3">
             <div class="container-fluid">
                 <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">PharmaEase</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
@@ -20,28 +20,28 @@
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                            <a class="nav-link text-light" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Prescriptions" asp-action="Index">Prescriptions</a>
+                            <a class="nav-link text-light" asp-area="" asp-controller="Prescriptions" asp-action="Index">Prescriptions</a>
                         </li>
                           <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Patients" asp-action="Index">Patients</a>
+                            <a class="nav-link text-light" asp-area="" asp-controller="Patients" asp-action="Index">Patients</a>
                         </li>
                           <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Doctors" asp-action="Index">Doctors</a>
+                            <a class="nav-link text-light" asp-area="" asp-controller="Doctors" asp-action="Index">Doctors</a>
                         </li>
                           <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Medications" asp-action="Index">Medications</a>
+                            <a class="nav-link text-light" asp-area="" asp-controller="Medications" asp-action="Index">Medications</a>
                         </li>
                           <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Couriers" asp-action="Index">Couriers</a>
+                            <a class="nav-link text-light" asp-area="" asp-controller="Couriers" asp-action="Index">Couriers</a>
                         </li>
                           <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Pharmacies" asp-action="Index">Pharmacies</a>
+                            <a class="nav-link text-light" asp-area="" asp-controller="Pharmacies" asp-action="Index">Pharmacies</a>
                         </li>
                           <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Pharmacists" asp-action="Index">Pharmacists</a>
+                            <a class="nav-link text-light" asp-area="" asp-controller="Pharmacists" asp-action="Index">Pharmacists</a>
                         </li>
 
                     </ul>
@@ -56,7 +56,7 @@
         </main>
     </div>
 
-    <footer class="border-top footer text-muted">
+    <footer class="border-top bg-secondary footer text-light">
         <div class="container">
             &copy; 2022 - PharmaEase - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
         </div>
