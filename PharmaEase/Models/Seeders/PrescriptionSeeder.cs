@@ -5,7 +5,7 @@ namespace PharmaEase.Models.Seeders
 {
     public static class PrescriptionSeeder
     {
-        public static void Initialize(IServiceProvider serviceProvider, string adminID)
+        public static void Initialize(IServiceProvider serviceProvider, string adminID, string userID, string userID2)
         {
             using (var context = new PharmaEaseContext(
                 serviceProvider.GetRequiredService<DbContextOptions<PharmaEaseContext>>()))
@@ -25,7 +25,8 @@ namespace PharmaEase.Models.Seeders
                     Street = "244 Chapman Circle SE",
                     PostalCode = "T2X 3T7",
                     Province = "Alberta",
-                    GovtHealthNum = "872903520"
+                    GovtHealthNum = "872903520",
+                    UserId = userID2
                 };
 
                 var patient2 = new Patient
@@ -36,7 +37,8 @@ namespace PharmaEase.Models.Seeders
                     Street = "12 University Drive NE",
                     PostalCode = "Z6Y K7L",
                     Province = "British Columbia",
-                    GovtHealthNum = "12356236"
+                    GovtHealthNum = "12356236",
+                    UserId = userID
                 };
 
                 var doctor1 = new Doctor

@@ -9,10 +9,16 @@ namespace PharmaEase.Models.Seeders
         {
             //make an admin and give him an id
             var adminID = await EnsureUser(serviceProvider, testUserPw, "admin@pharmaease.com");
+            var userID = await EnsureUser(serviceProvider, testUserPw, "user1@test.com");
+            var userID2 = await EnsureUser(serviceProvider, testUserPw, "user2@test.com");
+            var doctorID = await EnsureUser(serviceProvider, testUserPw, "doctor1@test.com");
+            var pharmacistID = await EnsureUser(serviceProvider, testUserPw, "pharmacist@test.com");
+
+
             await EnsureRole(serviceProvider, adminID, "Admin");
 
             MedicationSeeder.Initialize(serviceProvider);
-            PrescriptionSeeder.Initialize(serviceProvider, adminID);
+            PrescriptionSeeder.Initialize(serviceProvider, adminID, userID, userID2);
             //put rest of seeders here
             CourierSeeder.Initialize(serviceProvider);
         }
@@ -58,7 +64,7 @@ namespace PharmaEase.Models.Seeders
                 IR = await roleManager.CreateAsync(new IdentityRole(role));
             }
 
-            var userManager = serviceProvider.GetService<UserManager<Patient>>();
+            var userManager = serviceProvider.GetService<UserManager<IdentityUser>>();
 
             if (userManager == null)
             {

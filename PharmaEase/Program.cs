@@ -39,7 +39,7 @@ using (var scope = app.Services.CreateScope())
     // use dotnet user-secrets set SeedUserPw Passowrd1! so this works
     var testUserPw = builder.Configuration.GetValue<string>("SeedUserPW");
 
-   // await SeedData.Initialize(services, testUserPw);
+   await SeedData.Initialize(services, testUserPw);
 }
 
 // Configure the HTTP request pipeline.
