@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using PharmaEase.Data;
-using PharmaEase.Areas.Identity.Data;
 
 namespace PharmaEase.Models.Seeders
 {
@@ -24,7 +23,6 @@ namespace PharmaEase.Models.Seeders
                     Fname = "John",
                     Lname = "Doe",
                     Street = "244 Chapman Circle SE",
-                    PhoneNumber = "403-444-1234",
                     PostalCode = "T2X 3T7",
                     Province = "Alberta",
                     GovtHealthNum = "872903520"
@@ -36,7 +34,6 @@ namespace PharmaEase.Models.Seeders
                     Fname = "Jane",
                     Lname = "Watson",
                     Street = "12 University Drive NE",
-                    PhoneNumber = "403-777-7878",
                     PostalCode = "Z6Y K7L",
                     Province = "British Columbia",
                     GovtHealthNum = "12356236"

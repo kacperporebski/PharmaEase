@@ -18,26 +18,27 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
-using PharmaEase.Areas.Identity.Data;
+using PharmaEase.Data;
+using PharmaEase.Models;
 
 namespace PharmaEase.Areas.Identity.Pages.Account
 {
     [AllowAnonymous]
     public class RegisterModel : PageModel
     {
-        private readonly SignInManager<Patient> _signInManager;
-        private readonly UserManager<Patient> _userManager;
-        private readonly IUserStore<Patient> _userStore;
-        private readonly IUserEmailStore<Patient> _emailStore;
+        private readonly SignInManager<IdentityUser> _signInManager;
+        private readonly UserManager<IdentityUser> _userManager;
+        private readonly IUserStore<IdentityUser> _userStore;
+        private readonly IUserEmailStore<IdentityUser> _emailStore;
         private readonly ILogger<RegisterModel> _logger;
         private readonly IEmailSender _emailSender;
-
+        private readonly PharmaEaseContext _context;
         public RegisterModel(
-            UserManager<Patient> userManager,
-            IUserStore<Patient> userStore,
-            SignInManager<Patient> signInManager,
+            UserManager<IdentityUser> userManager,
+            IUserStore<IdentityUser> userStore,
+            SignInManager<IdentityUser> signInManager,
             ILogger<RegisterModel> logger,
-            IEmailSender emailSender)
+            IEmailSender emailSender, PharmaEaseContext context)
         {
             _userManager = userManager;
             _userStore = userStore;
@@ -45,6 +46,7 @@ namespace PharmaEase.Areas.Identity.Pages.Account
             _signInManager = signInManager;
             _logger = logger;
             _emailSender = emailSender;
+            _context = context;
         }
 
         /// <summary>
@@ -143,6 +145,7 @@ namespace PharmaEase.Areas.Identity.Pages.Account
         }
 
 
+
         public async Task OnGetAsync(string returnUrl = null)
         {
             ReturnUrl = returnUrl;
@@ -174,6 +177,20 @@ namespace PharmaEase.Areas.Identity.Pages.Account
                         values: new { area = "Identity", userId = userId, code = code, returnUrl = returnUrl },
                         protocol: Request.Scheme);
 
+                    await _context.AddAsync(new Patient
+                    {
+                        GovtHealthNum = Input.GovLicNum,
+                        City = Input.City,
+                        Fname = Input.FName,
+                        Lname = Input.LName,
+                        PostalCode = Input.PostCode,
+                        Province = Input.Province,
+                        Street = Input.Street,
+                        User = user,
+                        UserId = userId,
+                    });
+                    await _context.SaveChangesAsync();
+
                     await _emailSender.SendEmailAsync(Input.Email, "Confirm your email",
                         $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
 
@@ -197,36 +214,27 @@ namespace PharmaEase.Areas.Identity.Pages.Account
             return Page();
         }
 
-        private Patient CreateUser()
+        private IdentityUser CreateUser()
         {
             try
             {
-                return new Patient
-                {
-                    Fname = Input.FName,
-                    Lname = Input.LName,
-                    GovtHealthNum = Input.GovLicNum,
-                    City = Input.City,
-                    PostalCode = Input.PostCode,
-                    Province = Input.Province,
-                    Street = Input.Street,
-                };
+                return Activator.CreateInstance<IdentityUser>();
             }
             catch
             {
-                throw new InvalidOperationException($"Can't create an instance of '{nameof(Patient)}'. " +
-                    $"Ensure that '{nameof(Patient)}' is not an abstract class and has a parameterless constructor, or alternatively " +
+                throw new InvalidOperationException($"Can't create an instance of '{nameof(IdentityUser)}'. " +
+                    $"Ensure that '{nameof(IdentityUser)}' is not an abstract class and has a parameterless constructor, or alternatively " +
                     $"override the register page in /Areas/Identity/Pages/Account/Register.cshtml");
             }
         }
 
-        private IUserEmailStore<Patient> GetEmailStore()
+        private IUserEmailStore<IdentityUser> GetEmailStore()
         {
             if (!_userManager.SupportsUserEmail)
             {
                 throw new NotSupportedException("The default UI requires a user store with email support.");
             }
-            return (IUserEmailStore<Patient>)_userStore;
+            return (IUserEmailStore<IdentityUser>)_userStore;
         }
     }
 }

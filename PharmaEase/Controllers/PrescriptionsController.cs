@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using PharmaEase.Areas.Identity.Data;
 using PharmaEase.Data;
 using PharmaEase.Models;
 

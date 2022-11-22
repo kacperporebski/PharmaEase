@@ -1,11 +1,10 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using PharmaEase.Areas.Identity.Data;
 using PharmaEase.Models;
 
 namespace PharmaEase.Data
 {
-    public class PharmaEaseContext : IdentityDbContext<Patient>
+    public class PharmaEaseContext : IdentityDbContext
     {
         public PharmaEaseContext(DbContextOptions<PharmaEaseContext> options)
             : base(options)

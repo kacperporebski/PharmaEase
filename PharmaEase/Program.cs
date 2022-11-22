@@ -4,7 +4,7 @@ using PharmaEase.Data;
 using Microsoft.Extensions.DependencyInjection;
 using PharmaEase.Models.Seeders;
 using Microsoft.AspNetCore.Authorization;
-using PharmaEase.Areas.Identity.Data;
+using PharmaEase.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,7 +14,7 @@ builder.Services.AddDbContext<PharmaEaseContext>(options =>
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 //role and permissions
-builder.Services.AddDefaultIdentity<Patient>(options => options.SignIn.RequireConfirmedAccount = true)
+builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
     .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<PharmaEaseContext>();
 
@@ -39,7 +39,7 @@ using (var scope = app.Services.CreateScope())
     // use dotnet user-secrets set SeedUserPw Passowrd1! so this works
     var testUserPw = builder.Configuration.GetValue<string>("SeedUserPW");
 
-    await SeedData.Initialize(services, testUserPw);
+   // await SeedData.Initialize(services, testUserPw);
 }
 
 // Configure the HTTP request pipeline.
