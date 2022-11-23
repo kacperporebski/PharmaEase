@@ -5,7 +5,7 @@ namespace PharmaEase.Models.Seeders
 {
     public static class PrescriptionSeeder
     {
-        public static void Initialize(IServiceProvider serviceProvider, string adminID, string userID, string userID2)
+        public static void Initialize(IServiceProvider serviceProvider, string adminId, string userId, string userId2, string doctorId, string doctorId2)
         {
             using (var context = new PharmaEaseContext(
                 serviceProvider.GetRequiredService<DbContextOptions<PharmaEaseContext>>()))
@@ -26,7 +26,7 @@ namespace PharmaEase.Models.Seeders
                     PostalCode = "T2X 3T7",
                     Province = "Alberta",
                     GovtHealthNum = "872903520",
-                    UserId = userID2
+                    UserId = userId2
                 };
 
                 var patient2 = new Patient
@@ -38,16 +38,27 @@ namespace PharmaEase.Models.Seeders
                     PostalCode = "Z6Y K7L",
                     Province = "British Columbia",
                     GovtHealthNum = "12356236",
-                    UserId = userID
+                    UserId = userId
                 };
 
                 var doctor1 = new Doctor
                 {
-                    ApprovAdminId = adminID,
+                    ApprovAdminId = adminId,
                     Fname = "Sherlock",
                     Lname = "Holmes",
-                    Phone = "560-509-2333"
+                    Phone = "560-509-2333",
+                    UserId = doctorId
                 };
+
+                var doctor2 = new Doctor
+                {
+                    ApprovAdminId = adminId,
+                    Fname = "Luke",
+                    Lname = "Holmes",
+                    Phone = "234-555-5231",
+                    UserId = doctorId2
+                };
+
 
 
                 context.Prescription.AddRange(
@@ -74,13 +85,7 @@ namespace PharmaEase.Models.Seeders
                         Dosage = 4,
                         Medication = new Medication { CommonName = "Tasty", DoseNum = 5, Miligrams = 2 },
                         Patient = patient1,
-                        Doctor = new Doctor
-                        {
-                            ApprovAdminId = adminID,
-                            Fname = "Luke",
-                            Lname = "Holmes",
-                            Phone = "234-555-5231"
-                        },
+                        Doctor = doctor2,
                         Quantity = 6,
                         Refills = 3
                     },
@@ -89,13 +94,7 @@ namespace PharmaEase.Models.Seeders
                         Dosage = 17,
                         Medication = new Medication { CommonName = "DontEatThis", DoseNum = 5, Miligrams = 2 },
                         Patient = patient2,
-                        Doctor = new Doctor
-                        {
-                            ApprovAdminId = adminID,
-                            Fname = "Baby",
-                            Lname = "Yoda",
-                            Phone = "123-234-5667"
-                        },
+                        Doctor = doctor2,
                         Quantity = 25,
                         Refills = 1
                     }

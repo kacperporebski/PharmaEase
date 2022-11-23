@@ -10,12 +10,10 @@ namespace PharmaEase.Models
         public int Dosage { get; set; }
         public int Quantity { get; set; }
 
-        [Required]
         [ForeignKey("Doctor")]
         public int PrescriberLicenseNum { get; set; }
         public Doctor Doctor { get; set; }
 
-        [Required]
         [ForeignKey("Patient")]
         public string PatientHealthNum { get; set; }
         public Patient Patient { get; set; }

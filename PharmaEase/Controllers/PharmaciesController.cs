@@ -22,7 +22,7 @@ namespace PharmaEase.Controllers
         // GET: Pharmacies
         public async Task<IActionResult> Index()
         {
-              return View(await _context.Pharmacy.ToListAsync());
+            return View(await _context.Pharmacy.ToListAsync());
         }
 
         // GET: Pharmacies/Details/5
@@ -148,14 +148,14 @@ namespace PharmaEase.Controllers
             {
                 _context.Pharmacy.Remove(pharmacy);
             }
-            
+
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool PharmacyExists(int id)
         {
-          return _context.Pharmacy.Any(e => e.PharmacyId == id);
+            return _context.Pharmacy.Any(e => e.PharmacyId == id);
         }
     }
 }

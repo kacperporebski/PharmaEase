@@ -8,17 +8,20 @@ namespace PharmaEase.Models.Seeders
         public static async Task Initialize(IServiceProvider serviceProvider, string testUserPw)
         {
             //make an admin and give him an id
-            var adminID = await EnsureUser(serviceProvider, testUserPw, "admin@pharmaease.com");
-            var userID = await EnsureUser(serviceProvider, testUserPw, "user1@test.com");
-            var userID2 = await EnsureUser(serviceProvider, testUserPw, "user2@test.com");
-            var doctorID = await EnsureUser(serviceProvider, testUserPw, "doctor1@test.com");
-            var pharmacistID = await EnsureUser(serviceProvider, testUserPw, "pharmacist@test.com");
-
+            var adminID = await EnsureUser(serviceProvider, testUserPw, "admin");
+            var userId = await EnsureUser(serviceProvider, testUserPw, "user1@test.com");
+            var userId2 = await EnsureUser(serviceProvider, testUserPw, "user2@test.com");
+            var doctorId = await EnsureUser(serviceProvider, testUserPw, "doctor");
+            var doctorId2 = await EnsureUser(serviceProvider, testUserPw, "doctor2");
+            var pharmacistId = await EnsureUser(serviceProvider, testUserPw, "pharmacist");
 
             await EnsureRole(serviceProvider, adminID, "Admin");
+            await EnsureRole(serviceProvider, doctorId, "Doctor");
+            await EnsureRole(serviceProvider, doctorId2, "Doctor");
+            await EnsureRole(serviceProvider, pharmacistId, "Pharmacist");
 
             MedicationSeeder.Initialize(serviceProvider);
-            PrescriptionSeeder.Initialize(serviceProvider, adminID, userID, userID2);
+            PrescriptionSeeder.Initialize(serviceProvider, adminID, userId, userId2, doctorId, doctorId2);
             //put rest of seeders here
             CourierSeeder.Initialize(serviceProvider);
         }

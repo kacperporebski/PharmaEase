@@ -22,7 +22,7 @@ namespace PharmaEase.Controllers
         // GET: Couriers
         public async Task<IActionResult> Index()
         {
-              return View(await _context.Courier.ToListAsync());
+            return View(await _context.Courier.ToListAsync());
         }
 
         // GET: Couriers/Details/5
@@ -148,14 +148,14 @@ namespace PharmaEase.Controllers
             {
                 _context.Courier.Remove(courier);
             }
-            
+
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool CourierExists(int id)
         {
-          return _context.Courier.Any(e => e.CourierId == id);
+            return _context.Courier.Any(e => e.CourierId == id);
         }
     }
 }

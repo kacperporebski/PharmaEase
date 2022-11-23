@@ -155,14 +155,14 @@ namespace PharmaEase.Controllers
             {
                 _context.Pharmacist.Remove(pharmacist);
             }
-            
+
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool PharmacistExists(int id)
         {
-          return _context.Pharmacist.Any(e => e.EmployeeId == id);
+            return _context.Pharmacist.Any(e => e.EmployeeId == id);
         }
     }
 }
