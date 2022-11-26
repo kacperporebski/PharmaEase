@@ -33,5 +33,6 @@ namespace PharmaEase.Data
         public DbSet<PharmaEase.Models.Doctor> Doctor { get; set; }
         public DbSet<PharmaEase.Models.Pharmacist> Pharmacist { get; set; }
         public DbSet<PharmaEase.Models.Pharmacy> Pharmacy { get; set; }
+        public DbSet<PharmaEase.Models.Patient> Patient { get; set; }
     }
 }
