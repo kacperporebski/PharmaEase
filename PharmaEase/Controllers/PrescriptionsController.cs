@@ -4,6 +4,7 @@ using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -15,17 +16,29 @@ namespace PharmaEase.Controllers
     public class PrescriptionsController : Controller
     {
         private readonly PharmaEaseContext _context;
+        private readonly SignInManager<IdentityUser> _signInManager;
 
-        public PrescriptionsController(PharmaEaseContext context)
+        public PrescriptionsController(PharmaEaseContext context, SignInManager<IdentityUser> signInManager)
         {
             _context = context;
+            _signInManager = signInManager;
         }
 
         // GET: Prescriptions
         public async Task<IActionResult> Index()
         {
-            var pharmaEaseContext = _context.Prescription.Include(p => p.Doctor).Include(p => p.Medication).Include(p => p.Patient);
-            return View(await pharmaEaseContext.ToListAsync());
+            var userId = _signInManager.UserManager.GetUserId(User);
+            IQueryable<Prescription> prescriptions;
+            if (User.IsInRole("Admin"))
+                prescriptions = _context.Prescription.Include(p => p.Doctor).Include(p => p.Medication).Include(p => p.Patient);
+            else if (User.IsInRole("Doctor"))
+            {
+                prescriptions = _context.Prescription.Include(p => p.Doctor).Include(p => p.Medication).Include(p => p.Patient).Where(p => p.Doctor.UserId == userId);
+            }
+            else
+                prescriptions = _context.Prescription.Include(p => p.Doctor).Include(p => p.Medication).Include(p => p.Patient).Where(p => p.Patient.UserId == userId);
+
+            return View(await prescriptions.ToListAsync());
         }
 
         // GET: Prescriptions/Details/5

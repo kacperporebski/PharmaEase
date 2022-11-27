@@ -78,7 +78,7 @@ namespace PharmaEase.Models.Seeders
                         Dosage = 15,
                         Medication = new Medication { CommonName = "Stretchy", DoseNum = 5, Miligrams = 2 },
                         Patient = patient2,
-                        Doctor = doctor1,
+                        Doctor = doctor2,
                         Quantity = 1,
                         Refills = 5
                     },
@@ -87,7 +87,7 @@ namespace PharmaEase.Models.Seeders
                         Dosage = 4,
                         Medication = new Medication { CommonName = "Tasty", DoseNum = 5, Miligrams = 2 },
                         Patient = patient1,
-                        Doctor = doctor2,
+                        Doctor = doctor1,
                         Quantity = 6,
                         Refills = 3
                     },
