@@ -35,6 +35,10 @@ namespace PharmaEase.Controllers
             {
                 prescriptions = _context.Prescription.Include(p => p.Doctor).Include(p => p.Medication).Include(p => p.Patient).Where(p => p.Doctor.UserId == userId);
             }
+            else if (User.IsInRole("Pharmacist"))
+            {
+                prescriptions = _context.Prescription.Include(p => p.Doctor).Include(p => p.Medication).Include(p => p.Patient);
+            }
             else
                 prescriptions = _context.Prescription.Include(p => p.Doctor).Include(p => p.Medication).Include(p => p.Patient).Where(p => p.Patient.UserId == userId);
 
