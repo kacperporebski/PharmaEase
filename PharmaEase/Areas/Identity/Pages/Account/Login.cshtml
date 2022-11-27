@@ -10,7 +10,6 @@
     <div class="col-md-4">
         <section>
             <form id="account" method="post">
-                <h2></h2>
                 <hr />
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 <div class="form-floating">
@@ -39,9 +38,8 @@
                 </div>
                 <div>
                     <p>
-                        <a asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl">I'm not registered as a patient yet!'</a>
-                    </p>
-                    <p>
+                        <a asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl">I'm not registered as a patient yet!</a>
+                        <br />
                         <a id="forgot-password" asp-page="./ForgotPassword">Forgot your password?</a>
                     </p>
                 </div>
