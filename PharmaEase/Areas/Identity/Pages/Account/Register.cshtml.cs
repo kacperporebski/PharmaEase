@@ -190,6 +190,7 @@ namespace PharmaEase.Areas.Identity.Pages.Account
                         PostalCode = Input.PostCode,
                         Province = Input.Province,
                         Street = Input.Street,
+                        DoctorId = Input.Doctor,
                         User = user,
                         UserId = userId,
                     });
