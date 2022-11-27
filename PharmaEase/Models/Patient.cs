@@ -19,5 +19,10 @@ namespace PharmaEase.Models
         [ForeignKey("IdentityUser")]
         public string UserId { get; set; }
         public IdentityUser User { get; set; }
+
+        [Required]
+        [ForeignKey("Doctor")]
+        public int DoctorId{ get; set; }
+        public Doctor Doctor { get; set; }
     }
 }

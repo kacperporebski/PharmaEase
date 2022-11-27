@@ -36,6 +36,7 @@ namespace PharmaEase.Controllers
 
             var patient = await _context.Patient
                 .Include(p => p.User)
+                .Include(p => p.Doctor)
                 .FirstOrDefaultAsync(m => m.GovtHealthNum == id);
             if (patient == null)
             {

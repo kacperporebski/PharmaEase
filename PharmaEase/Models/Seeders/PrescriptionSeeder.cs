@@ -17,30 +17,7 @@ namespace PharmaEase.Models.Seeders
                 }
 
 
-                var patient1 = new Patient
-                {
-                    City = "Calgary",
-                    Fname = "John",
-                    Lname = "Doe",
-                    Street = "244 Chapman Circle SE",
-                    PostalCode = "T2X 3T7",
-                    Province = "Alberta",
-                    GovtHealthNum = "872903520",
-                    UserId = userId2
-                };
-
-                var patient2 = new Patient
-                {
-                    City = "Vancouver",
-                    Fname = "Jane",
-                    Lname = "Watson",
-                    Street = "12 University Drive NE",
-                    PostalCode = "Z6Y K7L",
-                    Province = "British Columbia",
-                    GovtHealthNum = "12356236",
-                    UserId = userId
-                };
-
+             
                 var doctor1 = new Doctor
                 {
                     ApprovAdminId = adminId,
@@ -60,6 +37,31 @@ namespace PharmaEase.Models.Seeders
                 };
 
 
+                var patient1 = new Patient
+                {
+                    City = "Calgary",
+                    Fname = "John",
+                    Lname = "Doe",
+                    Street = "244 Chapman Circle SE",
+                    PostalCode = "T2X 3T7",
+                    Province = "Alberta",
+                    GovtHealthNum = "872903520",
+                    UserId = userId2,
+                    Doctor= doctor1
+                };
+
+                var patient2 = new Patient
+                {
+                    City = "Vancouver",
+                    Fname = "Jane",
+                    Lname = "Watson",
+                    Street = "12 University Drive NE",
+                    PostalCode = "Z6Y K7L",
+                    Province = "British Columbia",
+                    GovtHealthNum = "12356236",
+                    UserId = userId, 
+                    Doctor = doctor2
+                };
 
                 context.Prescription.AddRange(
                     new Prescription

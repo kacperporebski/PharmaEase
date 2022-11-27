@@ -14,9 +14,8 @@ namespace PharmaEase.Models
 
         //this needs to come from the the asp net user table
         public string ApprovAdminId { get; set; }  
-        public string FullName => Fname + " " + "Lname";
+        public string FullName => Fname + " " + Lname + " - Phone Number: " + Phone;
 
-        [Required]
         [ForeignKey("IdentityUserKey")]
         public string UserId { get; set; }
         public IdentityUser User { get; set; }

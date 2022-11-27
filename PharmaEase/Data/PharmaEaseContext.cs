@@ -23,6 +23,14 @@ namespace PharmaEase.Data
                 entity.HasOne(p => p.Patient).WithMany().HasForeignKey(p => p.PatientHealthNum).OnDelete(DeleteBehavior.NoAction);
             });
 
+            modelBuilder.Entity<Patient>(entity =>
+            {
+                entity.HasOne(d => d.Doctor)
+                    .WithMany()
+                    .HasForeignKey(d => d.DoctorId)
+                    .OnDelete(DeleteBehavior.NoAction);
+            });
+
             base.OnModelCreating(modelBuilder);
         }
 
