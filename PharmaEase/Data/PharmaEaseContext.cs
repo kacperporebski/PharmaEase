@@ -30,8 +30,27 @@ namespace PharmaEase.Data
                     .HasForeignKey(d => d.DoctorId)
                     .OnDelete(DeleteBehavior.NoAction);
             });
-
-            base.OnModelCreating(modelBuilder);
+            modelBuilder.Entity<Delivers>(entity =>
+            {
+                entity.HasKey(d => new { d.PrescriptionID, d.CourierID, d.PharmacyID, d.PatientHealthNum });
+                entity.HasOne(d => d.Prescription)
+                    .WithMany()
+                    .HasForeignKey(d => d.PrescriptionID)
+                    .OnDelete(DeleteBehavior.NoAction);
+                entity.HasOne(d => d.Courier)
+                    .WithMany()
+                    .HasForeignKey(d => d.CourierID)
+                    .OnDelete(DeleteBehavior.NoAction);
+                entity.HasOne(d => d.Pharmacy)
+                    .WithMany()
+                    .HasForeignKey(d => d.PharmacyID)
+                    .OnDelete(DeleteBehavior.NoAction);
+                entity.HasOne(d => d.Patient)
+                    .WithMany()
+                    .HasForeignKey(d => d.PatientHealthNum)
+                    .OnDelete(DeleteBehavior.NoAction);
+            });
+            base.OnModelCreating(modelBuilder);       
         }
 
 
@@ -42,5 +61,6 @@ namespace PharmaEase.Data
         public DbSet<PharmaEase.Models.Pharmacist> Pharmacist { get; set; }
         public DbSet<PharmaEase.Models.Pharmacy> Pharmacy { get; set; }
         public DbSet<PharmaEase.Models.Patient> Patient { get; set; }
+        public DbSet<PharmaEase.Models.Delivers> Delivers { get; set; }
     }
 }
