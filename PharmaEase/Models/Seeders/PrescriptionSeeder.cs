@@ -106,4 +106,5 @@ namespace PharmaEase.Models.Seeders
         }
 
     }
+
 }

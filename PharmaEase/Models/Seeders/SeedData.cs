@@ -22,6 +22,7 @@ namespace PharmaEase.Models.Seeders
 
             MedicationSeeder.Initialize(serviceProvider);
             PrescriptionSeeder.Initialize(serviceProvider, adminID, userId, userId2, doctorId, doctorId2);
+            PharmacySeeder.Initialize(serviceProvider, adminID, pharmacistId);
             //put rest of seeders here
             CourierSeeder.Initialize(serviceProvider);
         }

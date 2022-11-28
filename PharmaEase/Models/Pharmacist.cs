@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.AspNetCore.Identity;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace PharmaEase.Models
@@ -10,7 +11,12 @@ namespace PharmaEase.Models
         public string Fname { get; set; }
         public string Lname { get; set; }
 
-        public int ApprovAdmindID { get; set; }
+        public string ApprovAdminID { get; set; }
+
+        [Required]
+        [ForeignKey("IdentityUser")]
+        public string UserId { get; set; }
+        public IdentityUser User { get; set; }
 
         [Required]
         [ForeignKey("Pharmacy")]

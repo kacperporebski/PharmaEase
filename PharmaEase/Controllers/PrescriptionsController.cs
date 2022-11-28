@@ -12,7 +12,13 @@ using PharmaEase.Data;
 using PharmaEase.Models;
 
 namespace PharmaEase.Controllers
-{
+{   
+    public class PrescriptionsViewModel
+    {
+        public IEnumerable<Prescription> Prescriptions { get; set; }
+        public IEnumerable<Delivers> Deliveries { get; set; }
+    }
+        
     public class PrescriptionsController : Controller
     {
         private readonly PharmaEaseContext _context;
@@ -42,8 +48,19 @@ namespace PharmaEase.Controllers
             else
                 prescriptions = _context.Prescription.Include(p => p.Doctor).Include(p => p.Medication).Include(p => p.Patient).Where(p => p.Patient.UserId == userId);
 
-            return View(await prescriptions.ToListAsync());
+            return View(new PrescriptionsViewModel() {
+              Prescriptions =  await prescriptions.ToListAsync(),
+              Deliveries = await _context.Delivers.ToListAsync() 
+            });
         }
+
+        // GET: Prescriptions/Deliver/5
+        public async Task<IActionResult> Deliver(int? id)
+        {
+            //redirect to the delivery controller
+            return RedirectToAction("Deliver", "Delivers", new { id = id });
+        }
+
 
         // GET: Prescriptions/Details/5
         public async Task<IActionResult> Details(int? id)

@@ -1,5 +1,5 @@
-﻿@model IEnumerable<PharmaEase.Models.Prescription>
-
+﻿@using PharmaEase.Controllers;
+@model PrescriptionsViewModel
 @{
     ViewData["Title"] = "Index";
 }
@@ -16,28 +16,28 @@
         <thead>
             <tr>
                 <th>
-                    @Html.DisplayNameFor(model => model.Refills)
+                    @Html.DisplayNameForInnerType((Prescription model) => model.Refills)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.Dosage)
+                    @Html.DisplayNameForInnerType((Prescription model) => model.Dosage)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.Quantity)
+                    @Html.DisplayNameForInnerType((Prescription model) => model.Quantity)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.Doctor)
+                    @Html.DisplayNameForInnerType((Prescription model) => model.Doctor)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.Patient)
+                    @Html.DisplayNameForInnerType((Prescription model) => model.Patient)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.Medication)
+                    @Html.DisplayNameForInnerType((Prescription model) => model.Medication)
                 </th>
-                <th></th>
+                <th>Delivery Status</th>
             </tr>
         </thead>
         <tbody>
-            @foreach (var item in Model)
+            @foreach (var item in Model.Prescriptions)
             {
                 <tr>
                     <td>
@@ -58,6 +58,14 @@
                     <td>
                         @Html.DisplayFor(modelItem => item.Medication.CommonName)
                     </td>
+                    @{
+                        var delivered = Model.Deliveries.Any(x => x.PrescriptionID == item.PrescriptionId); 
+                    }
+                    @if(delivered){
+                        <td>Delivered</td>
+                    }else{
+                         <td>Delivery Pending</td>
+                    }
                     <td>
                         <a asp-action="Edit" asp-route-id="@item.PrescriptionId">Edit</a> |
                         <a asp-action="Details" asp-route-id="@item.PrescriptionId">Details</a> |
@@ -74,25 +82,25 @@
         <thead>
             <tr>
                 <th>
-                    @Html.DisplayNameFor(model => model.Refills)
+                    @Html.DisplayNameForInnerType((Prescription model) => model.Refills)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.Dosage)
+                    @Html.DisplayNameForInnerType((Prescription model) => model.Dosage)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.Quantity)
+                    @Html.DisplayNameForInnerType((Prescription model) => model.Quantity)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.Patient)
+                    @Html.DisplayNameForInnerType((Prescription model) => model.Patient)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.Medication)
+                    @Html.DisplayNameForInnerType((Prescription model) => model.Medication)
                 </th>
                 <th></th>
             </tr>
         </thead>
         <tbody>
-            @foreach (var item in Model)
+            @foreach (var item in Model.Prescriptions)
             {
                 <tr>
                     <td>
@@ -119,31 +127,97 @@
             }
         </tbody>
     </table>
-}else{
-    
-    <table class="table table-dark">
+}else if(User.IsInRole("Pharmacist")){
+     <table class="table table-dark">
         <thead>
             <tr>
                 <th>
-                    @Html.DisplayNameFor(model => model.Refills)
+                    @Html.DisplayNameForInnerType((Prescription model) => model.Refills)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.Dosage)
+                    @Html.DisplayNameForInnerType((Prescription model) => model.Dosage)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.Quantity)
+                    @Html.DisplayNameForInnerType((Prescription model) => model.Quantity)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.Doctor)
+                    @Html.DisplayNameForInnerType((Prescription model) => model.Doctor)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.Medication)
+                    @Html.DisplayNameForInnerType((Prescription model) => model.Patient)
+                </th>
+                <th>
+                    @Html.DisplayNameForInnerType((Prescription model) => model.Medication)
                 </th>
                 <th></th>
             </tr>
         </thead>
         <tbody>
-            @foreach (var item in Model)
+            @foreach (var item in Model.Prescriptions)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Refills)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Dosage)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Quantity)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Doctor.MedicalLicenseId)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Patient.GovtHealthNum)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Medication.CommonName)
+                    </td>
+                     @{
+                        var delivered = Model.Deliveries.Any(x => x.PrescriptionID == item.PrescriptionId); 
+                    }
+                    @if(delivered){
+                        <td>Delivered</td>
+                    }else{
+                         <td>Delivery Pending</td>
+                    }
+                    <td>
+                        <a asp-action="Details" asp-route-id="@item.PrescriptionId">Details</a> |
+                       @if(!delivered){
+                        <a asp-action="Deliver" asp-route-id="@item.PrescriptionId">Deliver</a>;}
+                        
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else{
+    
+    <table class="table table-dark">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameForInnerType((Prescription model) => model.Refills)
+                </th>
+                <th>
+                    @Html.DisplayNameForInnerType((Prescription model) => model.Dosage)
+                </th>
+                <th>
+                    @Html.DisplayNameForInnerType((Prescription model) => model.Quantity)
+                </th>
+                <th>
+                    @Html.DisplayNameForInnerType((Prescription model) => model.Doctor)
+                </th>
+                <th>
+                    @Html.DisplayNameForInnerType((Prescription model) => model.Medication)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Prescriptions)
             {
                 <tr>
                     <td>

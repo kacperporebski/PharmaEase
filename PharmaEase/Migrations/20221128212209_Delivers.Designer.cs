@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PharmaEase.Data;
 
@@ -11,9 +12,10 @@ using PharmaEase.Data;
 namespace PharmaEase.Migrations
 {
     [DbContext(typeof(PharmaEaseContext))]
-    partial class PharmaEaseContextModelSnapshot : ModelSnapshot
+    [Migration("20221128212209_Delivers")]
+    partial class Delivers
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -373,9 +375,8 @@ namespace PharmaEase.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("EmployeeId"), 1L, 1);
 
-                    b.Property<string>("ApprovAdminID")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("ApprovAdmindID")
+                        .HasColumnType("int");
 
                     b.Property<string>("Fname")
                         .IsRequired()
@@ -385,16 +386,10 @@ namespace PharmaEase.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
                     b.Property<int>("WorksAt")
                         .HasColumnType("int");
 
                     b.HasKey("EmployeeId");
-
-                    b.HasIndex("UserId");
 
                     b.HasIndex("WorksAt");
 
@@ -579,12 +574,6 @@ namespace PharmaEase.Migrations
 
             modelBuilder.Entity("PharmaEase.Models.Pharmacist", b =>
                 {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("PharmaEase.Models.Pharmacy", "Pharmacy")
                         .WithMany()
                         .HasForeignKey("WorksAt")
@@ -592,8 +581,6 @@ namespace PharmaEase.Migrations
                         .IsRequired();
 
                     b.Navigation("Pharmacy");
-
-                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("PharmaEase.Models.Prescription", b =>
