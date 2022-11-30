@@ -196,7 +196,7 @@ namespace PharmaEase.Controllers
         {
             if (_context.Prescription == null)
             {
-                return Problem("Entity set 'PharmaEaseContext.Prescription'  is null.");
+                return Problem("Entity set 'PharmaEaseContext.Prescription' is null.");
             }
             var prescription = await _context.Prescription.FindAsync(id);
             if (prescription != null)
@@ -211,6 +211,39 @@ namespace PharmaEase.Controllers
         private bool PrescriptionExists(int id)
         {
           return _context.Prescription.Any(e => e.PrescriptionId == id);
+        }
+
+        // Request Refill functionality. Requests and updates refill quantity
+        public async Task<IActionResult> RequestRefill(int? id)
+        {
+            if (id == null || _context.Prescription == null)
+            {
+                return NotFound();
+            }
+
+            var prescription = await _context.Prescription
+                .Include(p => p.Doctor)
+                .Include(p => p.Medication)
+                .Include(p => p.Patient)
+                .FirstOrDefaultAsync(m => m.PrescriptionId == id);
+
+            if (prescription != null)
+            {
+                prescription.Refills--;
+            }
+            await _context.SaveChangesAsync();
+
+            if (prescription != null)
+            {
+                prescription.Refills = prescription.Refills - 1;
+            }
+
+            if (prescription == null)
+            {
+                return NotFound();
+            }
+
+            return View(prescription);
         }
     }
 }
