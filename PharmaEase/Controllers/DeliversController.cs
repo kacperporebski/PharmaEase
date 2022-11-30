@@ -48,7 +48,7 @@ namespace PharmaEase.Controllers
                 .Include(p => p.Medication)
                 .Include(p => p.Patient)
                 .FirstOrDefaultAsync(m => m.PrescriptionId == id);
-
+            
             if (prescription == null)
             {
                 return NotFound();
@@ -72,6 +72,8 @@ namespace PharmaEase.Controllers
             };
 
             _context.Add(deliveryModel);
+            prescription.Refills--;
+            _context.Update(prescription);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
