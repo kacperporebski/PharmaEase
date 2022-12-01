@@ -4,7 +4,7 @@
     ViewData["Title"] = "RequestRefill";
 }
 
-<h1>RequestRefill</h1>
+<h1>Requesting Refill</h1>
 
 <div>
     <hr />
@@ -21,33 +21,6 @@
         </dt>
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.decrementRefill)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Dosage)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Dosage)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Quantity)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Quantity)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Doctor)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Doctor.Fname)
-            @Html.DisplayFor(model => model.Doctor.Lname)
-
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Patient)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Patient.Fname)
-            @Html.DisplayFor(model => model.Patient.Lname)
         </dd>
         <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Medication)
