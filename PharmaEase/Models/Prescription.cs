@@ -23,5 +23,6 @@ namespace PharmaEase.Models
         [ForeignKey("Medication")]
         public string MedicationCommonName { get; set; }
         public Medication Medication { get; set; }
+        public int decrementRefill { get { return Refills- 1; } }
     }
 }
