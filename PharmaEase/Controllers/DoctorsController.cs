@@ -70,6 +70,7 @@ namespace PharmaEase.Controllers
                 if (result.Succeeded)
                 {
                     var userId = await _userManager.GetUserIdAsync(user);
+                    await _userManager.AddToRoleAsync(user, "Doctor");
 
                     await _context.AddAsync(new Doctor
                     {
@@ -107,20 +108,7 @@ namespace PharmaEase.Controllers
             }
         }
 
-        private IUserEmailStore<IdentityUser> GetEmailStore()
-        {
-            if (!_userManager.SupportsUserEmail)
-            {
-                throw new NotSupportedException("The default UI requires a user store with email support.");
-            }
-            return (IUserEmailStore<IdentityUser>)_userStore;
-        }
-
-
-
-
-
-
+     
         // GET: Doctors/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
