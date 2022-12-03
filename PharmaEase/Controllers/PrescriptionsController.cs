@@ -88,7 +88,7 @@ namespace PharmaEase.Controllers
         {
             ViewData["PrescriberLicenseNum"] = new SelectList(_context.Set<Doctor>(), "MedicalLicenseId", "MedicalLicenseId");
             ViewData["MedicationCommonName"] = new SelectList(_context.Medication, "CommonName", "CommonName");
-            ViewData["PatientHealthNum"] = new SelectList(_context.Set<Patient>().Where(x=>x.GovtHealthNum != "0"), "GovtHealthNum", "GovtHealthNum");
+            ViewData["PatientHealthNum"] = new SelectList(_context.Set<Patient>(), "GovtHealthNum", "ViewBag");
             return View();
         }
 
@@ -97,12 +97,13 @@ namespace PharmaEase.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("PrescriptionId,Refills,Dosage,Quantity,PrescriberLicenseNum,PatientHealthNum,MedicationCommonName")] Prescription prescription)
+        public async Task<IActionResult> Create([Bind("PrescriptionId,Refills,Dosage,Quantity,PatientHealthNum,MedicationCommonName")] Prescription prescription)
         {   
             var userId = _signInManager.UserManager.GetUserId(User);
             var doctor = _context.Doctor.First(x => x.UserId == userId);
             if (doctor != null)
             {
+                prescription.PrescriberLicenseNum = doctor.MedicalLicenseId;
                 prescription.Doctor = doctor;
             }
             else { return View(prescription); }
@@ -112,7 +113,7 @@ namespace PharmaEase.Controllers
 
             ViewData["PrescriberLicenseNum"] = new SelectList(_context.Set<Doctor>(), "MedicalLicenseId", "MedicalLicenseId", prescription.PrescriberLicenseNum);
             ViewData["MedicationCommonName"] = new SelectList(_context.Medication, "CommonName", "CommonName", prescription.MedicationCommonName);
-            ViewData["PatientHealthNum"] = new SelectList(_context.Set<Patient>(), "GovtHealthNum", "GovtHealthNum", prescription.PatientHealthNum);
+            ViewData["PatientHealthNum"] = new SelectList(_context.Set<Patient>(), "GovtHealthNum", "ViewBag", prescription.PatientHealthNum);
             return View(prescription);
         }
 

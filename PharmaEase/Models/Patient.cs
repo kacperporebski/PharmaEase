@@ -15,6 +15,7 @@ namespace PharmaEase.Models
         public string City { get; set; }
         public string Province { get; set; }
         public string FullName => Fname + " " + Lname;
+        public string ViewBag => FullName + " Health#: " + GovtHealthNum;
         [Required]
         [ForeignKey("IdentityUser")]
         public string UserId { get; set; }
