@@ -233,17 +233,6 @@ namespace PharmaEase.Controllers
                 .Include(p => p.Patient)
                 .FirstOrDefaultAsync(m => m.PrescriptionId == id);
 
-            if (prescription != null)
-            {
-                prescription.Refills--;
-            }
-            await _context.SaveChangesAsync();
-
-            if (prescription != null)
-            {
-                prescription.Refills = prescription.Refills - 1;
-            }
-
             if (prescription == null)
             {
                 return NotFound();
