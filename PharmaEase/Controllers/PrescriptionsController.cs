@@ -98,33 +98,22 @@ namespace PharmaEase.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("PrescriptionId,Refills,Dosage,Quantity,PrescriberLicenseNum,PatientHealthNum,MedicationCommonName")] Prescription prescription)
-        {
+        {   
             var userId = _signInManager.UserManager.GetUserId(User);
             var doctor = _context.Doctor.First(x => x.UserId == userId);
-
-            var prescription1 = new Prescription
+            if (doctor != null)
             {
-                Refills = 3,
-                Dosage = 3,
-                Quantity = 3,
-                PrescriberLicenseNum = doctor.MedicalLicenseId,
-                PatientHealthNum = "",
-                MedicationCommonName = ""
-            };
-
-            if (prescription1 == null)
-            {
-                return NotFound();
+                prescription.Doctor = doctor;
             }
-            
-            _context.Add(prescription1);
+            else { return View(prescription); }
+            _context.Add(prescription);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
 
             ViewData["PrescriberLicenseNum"] = new SelectList(_context.Set<Doctor>(), "MedicalLicenseId", "MedicalLicenseId", prescription.PrescriberLicenseNum);
             ViewData["MedicationCommonName"] = new SelectList(_context.Medication, "CommonName", "CommonName", prescription.MedicationCommonName);
             ViewData["PatientHealthNum"] = new SelectList(_context.Set<Patient>(), "GovtHealthNum", "GovtHealthNum", prescription.PatientHealthNum);
-            return View(prescription1);
+            return View(prescription);
         }
 
         // GET: Prescriptions/Edit/5
