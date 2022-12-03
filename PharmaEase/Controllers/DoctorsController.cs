@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using PharmaEase.Data;
 using PharmaEase.Models;
@@ -60,7 +59,7 @@ namespace PharmaEase.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("FName, LName, MedlicenseNum, Username, Phone, Password, ConfirmPassword")]CreateDoctorModel doctor)
+        public async Task<IActionResult> Create([Bind("FName, LName, MedlicenseNum, Username, Phone, Password, ConfirmPassword")] CreateDoctorModel doctor)
         {
             if (ModelState.IsValid)
             {
@@ -203,6 +202,20 @@ namespace PharmaEase.Controllers
             var doctor = await _context.Doctor.FindAsync(id);
             if (doctor != null)
             {
+                foreach (var pres in _context.Prescription.Where(x => x.PrescriberLicenseNum == doctor.MedicalLicenseId))
+                {
+                    _context.Prescription.Remove(pres);
+                    _context.RemoveRange(_context.Delivers.Where(x => x.PrescriptionID == pres.PrescriptionId));
+                }
+
+                foreach (var patient in _context.Patient.Where(x => x.Doctor.Equals(doctor)))
+                {
+                    var userDb = _context.Set<IdentityUser>();
+                    var accountToDelete = userDb.Find(patient.UserId);
+                    if (accountToDelete == null) throw new Exception("This patient doesnt have an account");
+                    userDb.Remove(accountToDelete);
+                    _context.Patient.Remove(patient);
+                }
                 _context.Doctor.Remove(doctor);
             }
 
