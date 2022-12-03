@@ -70,7 +70,10 @@ namespace PharmaEase.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = CreateUser();
+                var user = new IdentityUser
+                {
+                    EmailConfirmed = true
+                };
                 await _userStore.SetUserNameAsync(user, pharmacistModel.Username, CancellationToken.None);
                 var result = await _userManager.CreateAsync(user, pharmacistModel.Password);
 
@@ -102,19 +105,6 @@ namespace PharmaEase.Controllers
             return View(pharmacistModel);
         }
 
-        private IdentityUser CreateUser()
-        {
-            try
-            {
-                return Activator.CreateInstance<IdentityUser>();
-            }
-            catch
-            {
-                throw new InvalidOperationException($"Can't create an instance of '{nameof(IdentityUser)}'. " +
-                    $"Ensure that '{nameof(IdentityUser)}' is not an abstract class and has a parameterless constructor, or alternatively " +
-                    $"override the register page in /Areas/Identity/Pages/Account/Register.cshtml");
-            }
-        }
 
         // GET: Pharmacists/Edit/5
         public async Task<IActionResult> Edit(int? id)
