@@ -36,33 +36,18 @@ namespace PharmaEase.Controllers
             var userId = _signInManager.UserManager.GetUserId(User);
             IQueryable<Prescription> prescriptions;
             if (User.IsInRole("Admin"))
-                prescriptions = _context.Prescription.Include(p => p.Doctor).Include(p => p.Medication).Include(p => p.Patient);
+                prescriptions = _context.Prescription.Include(p => p.Doctor).Include(p => p.Medication).Include(p => p.Patient).Where(p => p.Refills > 0);
             else if (User.IsInRole("Doctor"))
             {
                 prescriptions = _context.Prescription.Include(p => p.Doctor).Include(p => p.Medication).Include(p => p.Patient).Where(p => p.Doctor.UserId == userId);
             }
             else if (User.IsInRole("Pharmacist"))
             {
-                prescriptions = _context.Prescription.Include(p => p.Doctor).Include(p => p.Medication).Include(p => p.Patient);
+                prescriptions = _context.Prescription.Include(p => p.Doctor).Include(p => p.Medication).Include(p => p.Patient).Where(p => p.Refills > 0);
             }
             else
-                prescriptions = _context.Prescription.Include(p => p.Doctor).Include(p => p.Medication).Include(p => p.Patient).Where(p => p.Patient.UserId == userId);
+                prescriptions = _context.Prescription.Include(p => p.Doctor).Include(p => p.Medication).Include(p => p.Patient).Where(p => p.Patient.UserId == userId).Where(p => p.Refills > 0);
 
-            foreach (Prescription p in prescriptions)
-            {
-                if (p.Refills <= 0)
-                {
-                    _context.Prescription.Remove(p);
-                    var deliver = await _context.Delivers
-                        .Include(p => p.Patient)
-                        .FirstOrDefaultAsync(m => m.PrescriptionID == p.PrescriptionId);
-                    
-                    if (deliver != null)
-                    {
-                        _context.Delivers.Remove(deliver);
-                    }
-                }
-            }
             await _context.SaveChangesAsync();
             return View(new PrescriptionsViewModel() {
               Prescriptions =  await prescriptions.ToListAsync(),
@@ -254,19 +239,6 @@ namespace PharmaEase.Controllers
                 return NotFound();
             }
 
-
-            var delivery = await _context.Delivers
-                .FirstOrDefaultAsync(m => m.PrescriptionID == id);
-
-            if (delivery != null)
-            {
-                _context.Delivers.Remove(delivery);
-            }
-            if (delivery == null)
-            {
-                Console.WriteLine("This is a test");
-            }
-            await _context.SaveChangesAsync();
             return View(prescription);
         }
     }
