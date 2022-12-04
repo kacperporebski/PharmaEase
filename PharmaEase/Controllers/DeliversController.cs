@@ -76,5 +76,10 @@ namespace PharmaEase.Controllers
             return RedirectToAction("Index", "Prescriptions");
         }
 
+        public async Task<IActionResult> BackToIndex()
+        {
+            return RedirectToAction("Index", "Prescriptions");
+        }
+
     }
 }
