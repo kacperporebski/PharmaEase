@@ -19,11 +19,6 @@ namespace PharmaEase.Controllers
             _signInManager = signInManager;
         }
 
-        public IActionResult Index()
-        {
-            return View();
-        }
-
         public async Task<IActionResult> Deliver(int? id)
         {
 
@@ -77,7 +72,7 @@ namespace PharmaEase.Controllers
             prescription.Refills--;
             _context.Update(prescription);
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction("Index", "Prescriptions");
         }
 
     }
