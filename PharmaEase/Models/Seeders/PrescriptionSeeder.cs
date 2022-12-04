@@ -71,7 +71,8 @@ namespace PharmaEase.Models.Seeders
                         Doctor = doctor1,
                         Quantity = 4,
                         Refills = 2,
-                        Medication = new Medication {CommonName = "SuperStrength", DoseNum = 5, Miligrams= 2}
+                        Medication = new Medication { CommonName = "SuperStrength", DoseNum = 5, Miligrams = 2 },
+                        CanRefill = false
                     },
                     new Prescription
                     {
@@ -80,7 +81,8 @@ namespace PharmaEase.Models.Seeders
                         Patient = patient2,
                         Doctor = doctor2,
                         Quantity = 1,
-                        Refills = 5
+                        Refills = 5,
+                        CanRefill = false
                     },
                     new Prescription
                     {
@@ -89,7 +91,8 @@ namespace PharmaEase.Models.Seeders
                         Patient = patient1,
                         Doctor = doctor1,
                         Quantity = 6,
-                        Refills = 3
+                        Refills = 3,
+                        CanRefill = false
                     },
                     new Prescription
                     {
@@ -98,9 +101,10 @@ namespace PharmaEase.Models.Seeders
                         Patient = patient2,
                         Doctor = doctor2,
                         Quantity = 25,
-                        Refills = 1
+                        Refills = 1,
+                        CanRefill = false
                     }
-                ) ;
+                );
                 context.SaveChanges();
             }
         }

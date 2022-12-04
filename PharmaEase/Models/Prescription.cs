@@ -10,6 +10,7 @@ namespace PharmaEase.Models
         public int Refills { get; set; }
         public int Dosage { get; set; }
         public int Quantity { get; set; }
+        public bool CanRefill { get; set; }
 
         [ForeignKey("Doctor")]
         public int PrescriberLicenseNum { get; set; }
@@ -25,6 +26,5 @@ namespace PharmaEase.Models
         [ForeignKey("Medication")]
         public string MedicationCommonName { get; set; }
         public Medication Medication { get; set; }
-        public int decrementRefill { get { return Refills- 1; } }
     }
 }

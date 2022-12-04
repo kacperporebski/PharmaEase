@@ -1,24 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using PharmaEase.Data;
 using PharmaEase.Models;
+using System.Data;
 
 namespace PharmaEase.Controllers
-{   
+{
     public class PrescriptionsViewModel
     {
         public IEnumerable<Prescription> Prescriptions { get; set; }
         public IEnumerable<Delivers> Deliveries { get; set; }
     }
-        
+
     public class PrescriptionsController : Controller
     {
         private readonly PharmaEaseContext _context;
@@ -43,30 +38,15 @@ namespace PharmaEase.Controllers
             }
             else if (User.IsInRole("Pharmacist"))
             {
-                prescriptions = _context.Prescription.Include(p => p.Doctor).Include(p => p.Medication).Include(p => p.Patient);
+                prescriptions = _context.Prescription.Include(p => p.Doctor).Include(p => p.Medication).Include(p => p.Patient).Where(p=> p.Refills > 0);
             }
             else
-                prescriptions = _context.Prescription.Include(p => p.Doctor).Include(p => p.Medication).Include(p => p.Patient).Where(p => p.Patient.UserId == userId);
+                prescriptions = _context.Prescription.Include(p => p.Doctor).Include(p => p.Medication).Include(p => p.Patient).Where(p => p.Patient.UserId == userId && p.Refills > 0);
 
-            foreach (Prescription p in prescriptions)
+            return View(new PrescriptionsViewModel()
             {
-                if (p.Refills <= 0)
-                {
-                    _context.Prescription.Remove(p);
-                    var deliver = await _context.Delivers
-                        .Include(p => p.Patient)
-                        .FirstOrDefaultAsync(m => m.PrescriptionID == p.PrescriptionId);
-                    
-                    if (deliver != null)
-                    {
-                        _context.Delivers.Remove(deliver);
-                    }
-                }
-            }
-            await _context.SaveChangesAsync();
-            return View(new PrescriptionsViewModel() {
-              Prescriptions =  await prescriptions.ToListAsync(),
-              Deliveries = await _context.Delivers.ToListAsync() 
+                Prescriptions = await prescriptions.ToListAsync(),
+                Deliveries = await _context.Delivers.ToListAsync()
             });
         }
 
@@ -104,7 +84,7 @@ namespace PharmaEase.Controllers
         {
             ViewData["PrescriberLicenseNum"] = new SelectList(_context.Set<Doctor>(), "MedicalLicenseId", "MedicalLicenseId");
             ViewData["MedicationCommonName"] = new SelectList(_context.Medication, "CommonName", "CommonName");
-            ViewData["PatientHealthNum"] = new SelectList(_context.Set<Patient>(), "GovtHealthNum", "ViewBag");
+            ViewData["PatientHealthNum"] = new SelectList(_context.Set<Patient>().Include(x=>x.Doctor).Where(x=>x.Doctor.UserId == _signInManager.UserManager.GetUserId(User)).ToList(), "GovtHealthNum", "ViewBag");
             return View();
         }
 
@@ -114,23 +94,26 @@ namespace PharmaEase.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("PrescriptionId,Refills,Dosage,Quantity,PatientHealthNum,MedicationCommonName")] Prescription prescription)
-        {   
+        {
             var userId = _signInManager.UserManager.GetUserId(User);
             var doctor = _context.Doctor.First(x => x.UserId == userId);
             if (doctor != null)
             {
                 prescription.PrescriberLicenseNum = doctor.MedicalLicenseId;
                 prescription.Doctor = doctor;
+                prescription.CanRefill = false;
             }
-            else { return View(prescription); }
+            else
+            {
+                ViewData["PrescriberLicenseNum"] = new SelectList(_context.Set<Doctor>(), "MedicalLicenseId", "MedicalLicenseId", prescription.PrescriberLicenseNum);
+                ViewData["MedicationCommonName"] = new SelectList(_context.Medication, "CommonName", "CommonName", prescription.MedicationCommonName);
+                ViewData["PatientHealthNum"] = new SelectList(_context.Set<Patient>().Include(x => x.Doctor).Where(x => x.Doctor.UserId == _signInManager.UserManager.GetUserId(User)).ToList(), "GovtHealthNum", "ViewBag");
+                return View(prescription); 
+            }
+
             _context.Add(prescription);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
-
-            ViewData["PrescriberLicenseNum"] = new SelectList(_context.Set<Doctor>(), "MedicalLicenseId", "MedicalLicenseId", prescription.PrescriberLicenseNum);
-            ViewData["MedicationCommonName"] = new SelectList(_context.Medication, "CommonName", "CommonName", prescription.MedicationCommonName);
-            ViewData["PatientHealthNum"] = new SelectList(_context.Set<Patient>(), "GovtHealthNum", "ViewBag", prescription.PatientHealthNum);
-            return View(prescription);
         }
 
         // GET: Prescriptions/Edit/5
@@ -225,14 +208,14 @@ namespace PharmaEase.Controllers
             {
                 _context.Prescription.Remove(prescription);
             }
-            
+
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool PrescriptionExists(int id)
         {
-          return _context.Prescription.Any(e => e.PrescriptionId == id);
+            return _context.Prescription.Any(e => e.PrescriptionId == id);
         }
 
         // Request Refill functionality. Requests and updates refill quantity
@@ -248,24 +231,15 @@ namespace PharmaEase.Controllers
                 .Include(p => p.Medication)
                 .Include(p => p.Patient)
                 .FirstOrDefaultAsync(m => m.PrescriptionId == id);
-            
+
             if (prescription == null)
             {
                 return NotFound();
             }
 
+            prescription.CanRefill = false;
+            _context.Update(prescription);
 
-            var delivery = await _context.Delivers
-                .FirstOrDefaultAsync(m => m.PrescriptionID == id);
-
-            if (delivery != null)
-            {
-                _context.Delivers.Remove(delivery);
-            }
-            if (delivery == null)
-            {
-                Console.WriteLine("This is a test");
-            }
             await _context.SaveChangesAsync();
             return View(prescription);
         }

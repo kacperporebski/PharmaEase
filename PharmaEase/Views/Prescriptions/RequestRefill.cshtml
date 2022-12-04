@@ -20,7 +20,7 @@
             Refills upon delivery
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.decrementRefill)
+            @(Model.Refills-1)
         </dd>
         <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Medication)

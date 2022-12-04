@@ -7,9 +7,7 @@
 <h1>Prescription Descriptions Below!</h1>
 
 @if (User.IsInRole("Admin"))
-{ <p>
-    <a asp-action="Create">Create New</a>
-</p>
+{ 
     <table class="table table-dark">
         <thead>
             <tr>
@@ -56,18 +54,14 @@
                     <td>
                         @Html.DisplayFor(modelItem => item.Medication.CommonName)
                     </td>
-                    @{
-                        var delivered = Model.Deliveries.Any(x => x.PrescriptionID == item.PrescriptionId); 
-                    }
-                    @if(delivered){
+               
+                    @if(item.CanRefill){
                         <td>Delivered</td>
                     }else{
                          <td>Delivery Pending</td>
                     }
                     <td>
-                        <a asp-action="Edit" asp-route-id="@item.PrescriptionId">Edit</a> |
                         <a asp-action="Details" asp-route-id="@item.PrescriptionId">Details</a> |
-                        <a asp-action="Delete" asp-route-id="@item.PrescriptionId">Delete</a>
                     </td>
                 </tr>
             }
@@ -174,17 +168,14 @@
                     <td>
                         @Html.DisplayFor(modelItem => item.Medication.CommonName)
                     </td>
-                     @{
-                        var delivered = Model.Deliveries.Any(x => x.PrescriptionID == item.PrescriptionId); 
-                    }
-                    @if(delivered){
+                    @if(item.CanRefill){
                         <td>Delivered</td>
                     }else{
                          <td>Delivery Pending</td>
                     }
                     <td>
                         <a asp-action="Details" asp-route-id="@item.PrescriptionId">Details</a> |
-                       @if(!delivered){
+                       @if(!item.CanRefill && item.Refills > 0){
                         <a asp-action="Deliver" asp-route-id="@item.PrescriptionId">Deliver</a>;}
                         
                     </td>
@@ -236,8 +227,11 @@ else{
                         @Html.DisplayFor(modelItem => item.Medication.CommonName)
                     </td>
                     <td>
-                        <a asp-action="RequestRefill" asp-route-id="@item.PrescriptionId">Request Refill</a> |
-                        <a asp-action="Details" asp-route-id="@item.PrescriptionId">Details</a> |
+                         <a asp-action="Details" asp-route-id="@item.PrescriptionId">Details</a> |
+                        @if (item.CanRefill && item.Refills > 0 )
+                        {
+                            <a asp-action="RequestRefill" asp-route-id="@item.PrescriptionId">Request Refill</a>
+                        }                       
                     </td>
                 </tr>
             }

@@ -53,6 +53,7 @@ namespace PharmaEase.Controllers
             {
                 return NotFound();
             }
+            prescription.CanRefill = true;
 
             var userId = _signInManager.UserManager.GetUserId(User);
 
