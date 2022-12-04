@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using PharmaEase.Data;
 using PharmaEase.Models;
 
@@ -9,7 +10,6 @@ namespace PharmaEase.Controllers
 {
     public class DeliversController : Controller
     {
-
         private readonly PharmaEaseContext _context;
         private readonly SignInManager<IdentityUser> _signInManager;
 
@@ -70,8 +70,9 @@ namespace PharmaEase.Controllers
                 PharmacyID = pharmacy.PharmacyId,
                 CourierID = userInput.CourierID
             };
-
+ 
             _context.Add(deliveryModel);
+
             prescription.Refills--;
             _context.Update(prescription);
             await _context.SaveChangesAsync();
