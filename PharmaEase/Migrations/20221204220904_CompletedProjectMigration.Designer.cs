@@ -12,8 +12,8 @@ using PharmaEase.Data;
 namespace PharmaEase.Migrations
 {
     [DbContext(typeof(PharmaEaseContext))]
-    [Migration("20221204154348_refillflag")]
-    partial class refillflag
+    [Migration("20221204220904_CompletedProjectMigration")]
+    partial class CompletedProjectMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -248,25 +248,36 @@ namespace PharmaEase.Migrations
 
             modelBuilder.Entity("PharmaEase.Models.Delivers", b =>
                 {
+                    b.Property<DateTime>("TimeDelivered")
+                        .HasColumnType("datetime2")
+                        .HasColumnOrder(1);
+
                     b.Property<int>("PrescriptionID")
-                        .HasColumnType("int");
+                        .HasColumnType("int")
+                        .HasColumnOrder(2);
 
                     b.Property<int>("CourierID")
-                        .HasColumnType("int");
+                        .HasColumnType("int")
+                        .HasColumnOrder(3);
 
                     b.Property<int>("PharmacyID")
-                        .HasColumnType("int");
+                        .HasColumnType("int")
+                        .HasColumnOrder(4);
 
                     b.Property<string>("PatientHealthNum")
-                        .HasColumnType("nvarchar(450)");
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)")
+                        .HasColumnOrder(5);
 
-                    b.HasKey("PrescriptionID", "CourierID", "PharmacyID", "PatientHealthNum");
+                    b.HasKey("TimeDelivered", "PrescriptionID", "CourierID", "PharmacyID");
 
                     b.HasIndex("CourierID");
 
                     b.HasIndex("PatientHealthNum");
 
                     b.HasIndex("PharmacyID");
+
+                    b.HasIndex("PrescriptionID");
 
                     b.ToTable("Delivers");
                 });

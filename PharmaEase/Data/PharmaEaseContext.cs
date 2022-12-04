@@ -32,7 +32,7 @@ namespace PharmaEase.Data
             });
             modelBuilder.Entity<Delivers>(entity =>
             {
-                entity.HasKey(d => new { d.PrescriptionID, d.CourierID, d.PharmacyID, d.PatientHealthNum });
+                entity.HasKey(d => new { d.TimeDelivered, d.PrescriptionID, d.CourierID, d.PharmacyID});
                 entity.HasOne(d => d.Prescription)
                     .WithMany()
                     .HasForeignKey(d => d.PrescriptionID)

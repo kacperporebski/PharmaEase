@@ -64,7 +64,8 @@ namespace PharmaEase.Controllers
                 PatientHealthNum = prescription.PatientHealthNum,
                 Pharmacy = pharmacy,
                 PharmacyID = pharmacy.PharmacyId,
-                CourierID = userInput.CourierID
+                CourierID = userInput.CourierID,
+                TimeDelivered = DateTime.Now
             };
  
             _context.Add(deliveryModel);
