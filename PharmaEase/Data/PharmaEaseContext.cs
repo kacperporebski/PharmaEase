@@ -36,7 +36,7 @@ namespace PharmaEase.Data
                 entity.HasOne(d => d.Prescription)
                     .WithMany()
                     .HasForeignKey(d => d.PrescriptionID)
-                    .OnDelete(DeleteBehavior.NoAction);
+                    .OnDelete(DeleteBehavior.Cascade);
                 entity.HasOne(d => d.Courier)
                     .WithMany()
                     .HasForeignKey(d => d.CourierID)

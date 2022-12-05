@@ -23,9 +23,12 @@
 	                        <h1 class="hero-title mt-0">PharmaEase</h1>
 	                        <p class="hero-paragraph">The one stop for all your prescription needs!</p>
 	                        <div class="hero-cta">
-								<a class="button button-primary" href="Identity/Account/Register">Register Now</a>
-								<a class="button button-primary" href="Identity/Account/Login">Login</a>
-							</div>
+                                @if (!User.Identity.IsAuthenticated)
+                                {
+                                    <a class="button button-primary" href="Identity/Account/Register">Register Now</a>
+                                    <a class="button button-primary" href="Identity/Account/Login">Login</a>
+                                }
+                            </div>
                             <div class="lights-toggle">
 									<input id="lights-toggle" type="checkbox" name="lights-toggle" class="switch">
 								</div>
