@@ -5,43 +5,82 @@
 }
 
 <h1>Medication Station!</h1>
-
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table table-dark">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.CommonName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Miligrams)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.DoseNum)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.CommonName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Miligrams)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.DoseNum)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.CommonName">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.CommonName">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.CommonName">Delete</a>
-            </td>
-        </tr>
+@if (User.IsInRole("Pharmacist"))
+{
+    <p>
+        <a asp-action="Create">Create New</a>
+    </p>
+    <table class="table table-dark">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.CommonName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Miligrams)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.DoseNum)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.CommonName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Miligrams)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.DoseNum)
+                    </td>
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@item.CommonName">Edit</a> |
+                        <a asp-action="Details" asp-route-id="@item.CommonName">Details</a> |
+                        <a asp-action="Delete" asp-route-id="@item.CommonName">Delete</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}else{
+     <table class="table table-dark">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.CommonName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Miligrams)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.DoseNum)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.CommonName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Miligrams)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.DoseNum)
+                    </td>
+                    <td>
+                        <a asp-action="Details" asp-route-id="@item.CommonName">Details</a> 
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
 }
-    </tbody>
-</table>
