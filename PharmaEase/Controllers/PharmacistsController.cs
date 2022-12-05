@@ -1,14 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using PharmaEase.Data;
 using PharmaEase.Models;
-using PharmaEase.Views.Doctors;
 using PharmaEase.Views.Pharmacists;
 
 namespace PharmaEase.Controllers
@@ -25,7 +20,7 @@ namespace PharmaEase.Controllers
             _context = context;
             _signInManager = signInManager;
             _userStore = userStore;
-            _userManager = userManager; 
+            _userManager = userManager;
         }
 
         // GET: Pharmacists
@@ -190,6 +185,11 @@ namespace PharmaEase.Controllers
             var pharmacist = await _context.Pharmacist.FindAsync(id);
             if (pharmacist != null)
             {
+
+                var userDb = _context.Set<IdentityUser>();
+                var accountToDelete = userDb.Find(pharmacist.UserId);
+                if (accountToDelete == null) throw new Exception("This patient doesnt have an account");
+                userDb.Remove(accountToDelete);
                 _context.Pharmacist.Remove(pharmacist);
             }
 
