@@ -40,15 +40,15 @@ namespace PharmaEase.Data
                 entity.HasOne(d => d.Courier)
                     .WithMany()
                     .HasForeignKey(d => d.CourierID)
-                    .OnDelete(DeleteBehavior.NoAction);
+                    .OnDelete(DeleteBehavior.Cascade);
                 entity.HasOne(d => d.Pharmacy)
                     .WithMany()
                     .HasForeignKey(d => d.PharmacyID)
-                    .OnDelete(DeleteBehavior.NoAction);
+                    .OnDelete(DeleteBehavior.Cascade);
                 entity.HasOne(d => d.Patient)
                     .WithMany()
                     .HasForeignKey(d => d.PatientHealthNum)
-                    .OnDelete(DeleteBehavior.NoAction);
+                    .OnDelete(DeleteBehavior.Cascade);
             });
             base.OnModelCreating(modelBuilder);       
         }
